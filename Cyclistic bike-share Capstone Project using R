@@ -1,87 +1,11 @@
-## **INTRODUCTION**
-
-This is the capstone project for the Google Data Analytics Professional Certificate on Coursera. 
-The analysis is based on a fictional company called Cyclistic. It’s originally based on the case study "'Sophisticated, Clear, and Polished’: Divvy and Data Visualization" written by Kevin Hartman found [here](https://artscience.blog/home/divvy-dataviz-case-study). 
-I will use the following steps to analyse the data: **ask, prepare, process, analyze, share, and act**.
-
-## **CYCLISTIC - THE COMPANY**
-
-Until now, Cyclistic’s marketing strategy relied on building general awareness and appealing to broad consumer segments. One approach that helped make these things possible was the flexibility of its pricing plans: single-ride passes, full-day passes, and annual memberships. 
-Customers who purchase single-ride or full-day passes are referred to as casual riders. Customers who purchase annual memberships are Cyclistic members.Cyclistic’s finance analysts have concluded that annual members are much more profitable than casual riders. 
-Although the pricing flexibility helps Cyclistic attract more customers, Moreno believes that maximizing the number of annual members will be key to future growth. Rather than creating a marketing campaign that targets all-new customers, 
-Moreno believes there is a very good chance to convert casual riders into members. She notes that casual riders are already aware of the Cyclistic program and have chosen Cyclistic for their mobility needs.
-Moreno has set a clear goal: Design marketing strategies aimed at converting casual riders into annual members. In order to do that, however, the marketing analyst team needs to better understand how annual members and casual riders differ, why casual riders would buy a membership, 
-and how digital media could affect their marketing tactics. Moreno and her team are interested in analyzing the Cyclistic historical bike trip data to identify trends.
-
-## **SCENARIO**
-
-I am a junior data analyst working in the marketing analyst team at Cyclistic, a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. 
-Therefore, my team wants to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, my team will design a new marketing strategy to convert casual riders into annual members. 
-
-## **KEY STAKEHOLDERS**
-​
-* **Lily Moreno**: The director of marketing and my manager. 
-​
-* **Cyclistic marketing analytics team**: A team of data analysts who are responsible for collecting, analyzing, and reporting data that helps guide Cyclistic marketing strategy. 
-​
-* **Cyclistic executive team**: The notoriously detail-oriented executive team will decide whether to approve the recommended marketing program.
-
-## **ASK**
-
-
- These questions will guide the future marketing program:
- 
-1. How do annual members and casual riders use Cyclistic bikes differently?
-2. Why would casual riders buy Cyclistic annual memberships?
-3. How can Cyclistic use digital media to influence casual riders to become members?
-
-
-My manager, Lily Moreno has assigned me the first  question to answer: 
-How do annual members and casual riders use Cyclistic bikes differently?
-
-##### **BUSINESS TASK**
-
-Use Cyclistic’s historical trip data to analyze and identify trends between annual members and casual riders.
-
-
-
-## **PREPARE**
-​
-##### **DATA SOURCE**
-​
-I used Cyclistic's historical trip data from January 2022 to December 2022. I downloaded the data from open data which is accessable to public from [divvy-tripdata](https://divvy-tripdata.s3.amazonaws.com/index.html). 
-​
-​
-##### **DATA ORGANIZATION**
-​
-The data is kept in csv files by seperated each month. The files includes data such as ride type, start and end (time, station id, station name, lattitude, longitude),member types (casual or member).
-​
-
-
-## **PROCESS**
-
-Due to large number of records in 2022 dataset, it will be difficult and time consuming to process the data. Hence I choose to work in R Studio. 
-
-First I installed and loaded packages which will be used in the process, which are **tidyverse, janitor and ggplot2**.
-
-
-
-
 # This R environment comes with many helpful analytics packages installed
 # It is defined by the kaggle/rstats Docker image: https://github.com/kaggle/docker-rstats
-# For example, here's a helpful package to loadb
 
 library(tidyverse) # metapackage of all tidyverse packages
 
 # Input data files are available in the read-only "../input/" directory
-# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 
 list.files(path = "../input")
-
-The cyslistic bike share data from January 2022 to December 2022 is already uploaded by another kaggle user [Ida Sri Afiqah](https://www.kaggle.com/keenarataufiq)
-
-# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
-# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
 
 
 #import the csv datasets
@@ -93,8 +17,7 @@ colnames(Cyclistic_2022)
 
 str(Cyclistic_2022)
 
-Renaming the columns ride_id, ridable_type, start_at, end_at, start_station_name, start_station_id, end_station_name, end_station_id,member_casual to trip_id, bike_id, start_time, end_time, 
-from_station_name, from_station_id, to_station_name, to_station_id, usertype respectively for better understanding.
+Renaming the columns ride_id, ridable_type, start_at, end_at, start_station_name, start_station_id, end_station_name, end_station_id,member_casual to trip_id, bike_id, start_time, end_time, from_station_name, from_station_id, to_station_name, to_station_id, usertype respectively for better understanding.
 
 
 (Cyclistic_2022 <- rename (Cyclistic_2022
@@ -131,9 +54,8 @@ Cyclistic_2022$month <- format(as.Date(Cyclistic_2022$start_time), '%m')
 
 Next step of cleaning process is to remove any columns where ride_lenght is negative. Since data is being removed, I'm creating a new version of the dataframe (Cyclistic_2022_v2)
 
-Cyclistic_2022_v2 <- Cyclistic_2022[!(Cyclistic_2022$ride_length<=0),]
 
-## **ANALYZE & SHARE**
+Cyclistic_2022_v2 <- Cyclistic_2022[!(Cyclistic_2022$ride_length<=0),]
 
 
 # analyzing ridership data by type and weekday
@@ -157,8 +79,6 @@ options(scipen = 999)
 ggsave("number_of_rides_by_rider_type.png")
 
 
-The number of casual riders are more than member riders during the weekends. And member riders are more on weekdays compared to casual riders.
-
 
 # Number of rides per month
 
@@ -170,9 +90,6 @@ ggsave("number_of_rides_per_month.png")
 
 
 
-The months June, July and August, September, October have high member riders and June, July, August have high casual riders. December, January, February have the least number of member and casual rides.
-
-
 # Number of rides by bike type
 
 ggplot(data = Cyclistic_2022_v2) +
@@ -181,9 +98,6 @@ ggplot(data = Cyclistic_2022_v2) +
   labs(x = 'Bike type', y = 'Number of rides', fill = 'Member type', title = 'Number of rides by bike type')
 ggsave("number_of_rides_by_bike_type.png")
 
-
-Member riders ride both classic and electric bikes where casual members seem to prefer electrics bike a bit more than classic bikes.
-Only casual riders have docked bikes
 
 
 # Hourly usage by day of the week
@@ -197,11 +111,7 @@ ggplot(data = Cyclistic_2022_v2) +
 ggsave("Hourly_use_of_bikes_throughout_the_week.png", dpi = 1000)
 
 
-Peak hours are 4 PM to 6 PM during weekdays, 12 PM to 6 PM during weekends. 
-
-
 Checking top 10 to and from stations for better suggestions/future campaions.
-
 
 
 member_rider_df <- filter(Cyclistic_2022_v2, usertype=='member')
@@ -211,25 +121,3 @@ count(member_rider_df, to_station_name, sort = T)
 casual_rider_df <- filter(Cyclistic_2022_v2, usertype=='casual')
 count(casual_rider_df, from_station_name, sort = T)
 count(casual_rider_df, to_station_name, sort = T)
-
-
-
-#### OBSERVATIONS    
-​
-After carefully observing above plots, I've come with below conclusions:
-* Casual riders use bike more than member riders on every day of the week.
-* Member riders use bikes mostly to commute to work and casual riders use bikes mostly to go around the city on weekends from noon till evening.
-* Only casual riders use docked bike.
-* Casual riders use the bikes more hours than member riders during weekends.
-* Casual riders use bikes almost the same as the member riders for the months June, July and August.
-* Kingsbury St & Kinzie St is the most used to and from station among annual members.
-* Streeter Dr & Grand Ave is the most used to and from station among casual riders.
-
-
-
-## **ACT**
-Bases on the above observations I gave below suggestions to my manager (Lily Moreno):
-* Conduct a survey with casual members why they are choosing to opt for single-ride/full-day pass even though on an average they seem to use the bikes equally or even more than member riders.
-* Increase the price of the single-ride and full-day passess so casual riders are more inclined to subscribe to memberships.
-* Do promotions regarding memberships on top 5 stations during weekends as that's when casual riders seems to use the bikes more.
-* Offer seasonal discounts on memberships during peak months (June, July, August) to help convert casual riders to member riders.
