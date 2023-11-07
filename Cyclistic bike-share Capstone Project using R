@@ -32,6 +32,7 @@ Renaming the columns ride_id, ridable_type, start_at, end_at, start_station_name
                    ,usertype = member_casual))
 
 
+
 #wday() extracts the DAY from the OBJECT(usually SELECTED from a column in a dataframe) with the date format.
 
 Cyclistic_2022$day_of_week <- wday(Cyclistic_2022$start_time, label = T, abbr = T)
